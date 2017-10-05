@@ -115,14 +115,16 @@ project(':cruise-control') {
     compile 'io.dropwizard.metrics:metrics-core:3.2.2'
 
     // Linkedin internal dependency that needs to be removed before open sourcing.
-    compile 'kafka:kafka_2.10:0.10.1.96'
-    compile 'kafka:kafka_2.10:0.10.1.96:test'
-    compile 'kafka:kafka-clients:0.10.1.96'
+    compile 'kafka:kafka_2.10:0.10.2.45'
+    compile 'kafka:kafka-clients:0.10.2.45'
 
     testCompile project(path: ':cruise-control-metrics-reporter', configuration: 'testOutput')
     testCompile "org.scala-lang:scala-library:2.10.4"
     testCompile 'org.easymock:easymock:3.4'
-    testCompile 'kafka:kafka_2.10:0.10.1.96:test'
+    testCompile 'kafka:kafka-clients:0.10.2.45:test'
+    testCompile 'com.linkedin.kafka.clients:li-apache-kafka-clients:0.0.12'
+    testCompile 'com.linkedin.kafka.clients:li-apache-kafka-clients:0.0.12:tests'
+    testCompile 'commons-io:commons-io:2.5'
   }
 
   tasks.create(name: "copyDependantLibs", type: Copy) {
@@ -142,7 +144,6 @@ project(':cruise-control') {
 }
 
 project(':cruise-control-metrics-reporter') {
-  apply plugin: 'scala'
 
   configurations {
     testOutput
@@ -154,23 +155,17 @@ project(':cruise-control-metrics-reporter') {
     compile 'org.apache.commons:commons-math3:3.6.1'
 
     // Linkedin internal dependency that needs to be removed before open sourcing.
-    compile 'kafka:kafka_2.10:0.10.1.96'
-    compile 'kafka:kafka-clients:0.10.1.96'
+    compile 'kafka:kafka_2.10:0.10.2.45'
+    compile 'kafka:kafka-clients:0.10.2.45'
 
     testCompile 'org.bouncycastle:bcpkix-jdk15on:1.54'
-    testCompile 'kafka:kafka_2.10:0.10.1.96:test'
+    testCompile 'kafka:kafka-clients:0.10.2.45'
+    testCompile 'kafka:kafka_2.10:0.10.2.45:test'
+    testCompile 'kafka:kafka-clients:0.10.2.45:test'
+    testCompile 'com.linkedin.kafka.clients:li-apache-kafka-clients:0.0.12'
+    testCompile 'com.linkedin.kafka.clients:li-apache-kafka-clients:0.0.12:tests'
+    testCompile 'commons-io:commons-io:2.5'
     testOutput sourceSets.test.output
   }
 
-  sourceSets {
-    test {
-      java {
-        srcDirs = []
-      }
-      scala {
-        srcDirs = ['src/test/java', 'src/test/scala']
-      }
-    }
-
-  }
 }
